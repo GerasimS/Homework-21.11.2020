@@ -4,105 +4,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FloatingMatrix
+namespace MatrixNxN
 {
     class Program
     {
         static void Main(string[] args)
         {
+            int sumD = 0;
+            int sumM = 0;
             var random = new Random();
-            int row;
-            int col;
-            char op = '~';
-            float sum = 13;
+            Console.WriteLine("Enter the size of the matrix: ");
+            int size = int.Parse(Console.ReadLine());
+            int[,] matrix = new int[size, size];
 
-            Console.WriteLine("Enter the size of the matrix.");
-            Console.Write("rows: ");
-            int rows = int.Parse(Console.ReadLine());
-            Console.WriteLine("columns: ");
-            int cols = int.Parse(Console.ReadLine());
-            float[,] matrix = new float[rows, cols];
-
-            for(int i = 0; i < rows; i++)
+            for(int i = 0; i < size; i++)
             {
-                for(int j = 0; j < cols; j++)
+                for(int j = 0; j < size; j++)
                 {
-                    matrix[i, j] = Convert.ToSingle(random.NextDouble());
+                    matrix[i , j] = random.Next() % 100;
                 }
             }
 
-            while(true)
+            for (int i = 0; i < size; i++)
             {
-                Console.WriteLine("Enter the row of the number you want to use: ");
-                row = int.Parse(Console.ReadLine());
-                Console.WriteLine("Enter the col of the number you want to use: ");
-                col = int.Parse(Console.ReadLine());
-                if(row < 0 || row >= rows || col < 0 || col >= cols)
+                sumD += matrix[i, i];
+            }
+
+            int temp = size - 1;
+            for (int i = 0; i < size; i++)
+            {
+                if(i != temp)
                 {
-                    Console.WriteLine("Invalid index!");
+                    sumD += matrix[i, temp];
                 }
-                else
+                temp--;
+            }
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
                 {
-                    break;
+                    sumM += matrix[i, j];
                 }
             }
 
-            Console.WriteLine("Enter the second number you want to use: ");
-            float num2 = float.Parse(Console.ReadLine());
+            Console.Write("The sum of the diagonals is: ");
+            Console.WriteLine(sumD);
+            Console.Write("The sum of the whole matrix is: ");
+            Console.WriteLine(sumM);
 
-            bool temp = true;
-            while (temp == true)
-            {
-                Console.WriteLine("Enter the operator you want to use: ");
-                op = char.Parse(Console.ReadLine());
-                
-                switch (op)
-                {
-                    case '+':
-                        {
-                            sum = matrix[row, col] + num2;
-                            temp = false;
-                            break;
-                        }
-                    case '-':
-                        {
-                            sum = matrix[row, col] - num2;
-                            temp = false;
-                            break;
-                        }
-                    case '*':
-                        {
-                            sum = matrix[row, col] * num2;
-                            temp = false;
-                            break;
-                        }
-                    case '/':
-                        {
-                            sum = matrix[row, col] / num2;
-                            temp = false;
-                            break;
-                        }
-                    case '%':
-                        {
-                            sum = matrix[row, col] % num2;
-                            temp = false;
-                            break;
-                        }
-                    default:
-                        Console.WriteLine("Invalid operator!");
-                        break;
-
-                }
-            }
-            
-
-            Console.Write(matrix[row, col]);
-            Console.Write(" ");
-            Console.Write(op);
-            Console.Write(" ");
-            Console.Write(num2);
-            Console.Write(" = ");
-            Console.WriteLine(sum);
         }
     }
 }
